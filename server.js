@@ -63,7 +63,28 @@ res.json({
 })
 })
 app.get("/api/journal/insights/:userId", (req,res)=>{
-  // existing code
+  
+const userId = req.params.userId
+
+const userEntries = journals.filter(
+  j => j.userId === userId
+)
+
+const totalEntries = userEntries.length
+
+const mostUsedAmbience = userEntries[0]?.ambience || "unknown"
+
+const recentKeywords = userEntries
+.map(j => j.text.split(" ")[0])
+.slice(0,3)
+
+res.json({
+  totalEntries,
+  topEmotion: "calm",
+  mostUsedAmbience,
+  recentKeywords
+})
+
 })
 
 
