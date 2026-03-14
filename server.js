@@ -56,7 +56,34 @@ app.get("/api/journal/insights/:userId", (req,res)=>{
         recentKeywords: ["peace","nature"]
     })
 })
+app.get("/api/journal/insights/:userId", (req,res)=>{
+  // existing code
+})
 
-app.listen(5000, ()=>{
-    console.log("Server running on port 5000")
+
+app.post("/api/journal/analyze", (req,res)=>{
+
+ const { text } = req.body
+
+ let emotion = "neutral"
+
+ if(text.includes("happy") || text.includes("great")){
+  emotion = "happy"
+ }
+ else if(text.includes("sad") || text.includes("bad")){
+  emotion = "sad"
+ }
+ else if(text.includes("calm") || text.includes("peace")){
+  emotion = "calm"
+ }
+
+ const words = text.split(" ")
+ const keywords = words.slice(0,3)
+
+ res.json({
+  emotion,
+  keywords,
+  summary: `User seems ${emotion} while writing the journal`
+ })
+
 })
