@@ -49,12 +49,18 @@ app.get("/api/journal/insights/:userId", (req,res)=>{
 
     const totalEntries = userEntries.length
 
-    res.json({
-        totalEntries,
-        topEmotion: "calm",
-        mostUsedAmbience: "nature",
-        recentKeywords: ["peace","nature"]
-    })
+    const mostUsedAmbience = userEntries[0]?.ambience || "unknown"
+
+const recentKeywords = userEntries
+  .map(j => j.text.split(" ")[0])
+  .slice(0,3)
+
+res.json({
+  totalEntries,
+  topEmotion: "calm",
+  mostUsedAmbience,
+  recentKeywords
+})
 })
 app.get("/api/journal/insights/:userId", (req,res)=>{
   // existing code
