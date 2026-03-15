@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Journal</title>
+</head>
+
+<body>
+
+<h1>AI Journal</h1>
+
+<textarea id="text" rows="5" cols="40" placeholder="Write your journal..."></textarea>
+<br><br>
+
+<button onclick="analyze()">Analyze Emotion</button>
+
+<br><br>
+
+<pre id="result"></pre>
+
+<script>
+
+async function analyze() {
+
+const text = document.getElementById("text").value
+
+const res = await fetch("http://localhost:5000/api/journal/analyze", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({ text: text })
+})
+
+const data = await res.json()
+
+document.getElementById("result").innerText =
+"Emotion: " + data.emotion +
+"\nKeywords: " + data.keywords.join(", ") +
+"\nSummary: " + data.summary
+
+}
+
+</script>
+
+</body>
+</html>

@@ -10,9 +10,18 @@ app.get("/", (req,res)=>{
     res.send("Journal API Running")
 })
 
-let journals = []
+
 
 app.post("/api/journal", (req,res)=>{
+    app.get("/api/journal/:userId",(req,res)=>{
+
+const userId = req.params.userId
+
+const userEntries = journals.filter(j => j.userId === userId)
+
+res.json(userEntries)
+
+})
 
     const {userId, ambience, text} = req.body
 
@@ -113,4 +122,12 @@ app.post("/api/journal/analyze", (req,res)=>{
   summary: `User seems ${emotion} while writing the journal`
  })
 
+})
+app.use(express.json())
+
+app.use(express.static("."))
+let journals = []
+
+app.listen(5000, () => {
+console.log("Server running on port 5000")
 })
